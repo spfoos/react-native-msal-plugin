@@ -49,10 +49,10 @@ public class RNMsalPlugin extends ReactContextBaseJavaModule implements Activity
     }
 
     @ReactMethod
-    public void acquireTokenAsync(String authority, String clientId, String scopes, String extraParameters, final Promise promise) {
+    public void acquireTokenAsync(String authority, String clientId, String scopes, String extraParameters, String loginHint, final Promise promise) {
         try {
 
-            getOrCreatePublicationClient(clientId, authority).acquireToken(this.getCurrentActivity(), scopes.split(","), "", null, extraParameters, handleResult(promise, authority));
+            getOrCreatePublicationClient(clientId, authority).acquireToken(this.getCurrentActivity(), scopes.split(","), loginHint, null, extraParameters, handleResult(promise, authority));
 
         } catch (Exception ex) {
             promise.reject(ex);

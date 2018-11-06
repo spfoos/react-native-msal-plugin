@@ -14,7 +14,8 @@ RCT_REMAP_METHOD(acquireTokenAsync,
                  authority:(NSString *)authority
                  clientId:(NSString *)clientId
                  scopes:(NSArray<NSString*>*)scopes
-                 extraQueryParms:(NSString*)extraQueryParms
+                 extraQueryParams:(NSString*)extraQueryParams
+                 loginHint:(NSString*)loginHint
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject )
 {
@@ -29,19 +30,17 @@ RCT_REMAP_METHOD(acquireTokenAsync,
     
     
     NSDictionary<NSString*,NSString*> *json = nil;
-    if(extraQueryParms != nil){
-      NSData *data = [extraQueryParms dataUsingEncoding:NSUTF8StringEncoding];
+    if(extraQueryParams != nil){
+      NSData *data = [extraQueryParams dataUsingEncoding:NSUTF8StringEncoding];
       json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     }
     
     
     [clientApplication acquireTokenForScopes:scopes
-                        extraScopesToConsent:nil
-                                        user:nil
+                                   loginHint:loginHint
                                   uiBehavior:MSALUIBehaviorDefault
                         extraQueryParameters:json
                                    authority:authority
-                               correlationId:nil
                              completionBlock:^(MSALResult *result, NSError *error)
      {
        if(error) {

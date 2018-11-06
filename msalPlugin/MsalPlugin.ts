@@ -24,12 +24,14 @@ export default class MsalPlugin {
   public acquireTokenAsync = (
     scopes: string[],
     extraQueryParameters?: Record<string, string>,
+    loginHint?: string,
   ): Promise<IAuthenticationResult> => {
     return RNMsalPlugin.acquireTokenAsync(
       this.b2cAuthority,
       this.clientId,
       Platform.OS === "ios" ? scopes : scopes.join(","),
       JSON.stringify(extraQueryParameters),
+      loginHint === null ? "" : loginHint,
     );
   }
 
